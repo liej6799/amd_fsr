@@ -1,6 +1,3 @@
-#include <iostream>
+#include "VulkanExample.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
+int main(int argc, char *argv[]) { VulkanExample ve = VulkanExample(); }
