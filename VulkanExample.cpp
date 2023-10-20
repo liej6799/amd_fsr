@@ -94,6 +94,10 @@ void VulkanExample::initDevices() {
                 VK_VERSION_PATCH(physicalProperties.apiVersion));
     }
     CAS_SAMPLE_VK::CAS_Filter filter = {};
-    filter.UpdateSharpness(0.1, CAS_SAMPLE_VK::CAS_State_SharpenOnly);
+
+    // deviceq
+    filter.OnCreate(device);
+
+    //filter.UpdateSharpness(0.1, CAS_SAMPLE_VK::CAS_State_SharpenOnly);
 
 }

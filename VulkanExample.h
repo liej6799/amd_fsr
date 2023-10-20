@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include <vulkan/vulkan.h>
 #include <cassert>
 #include <vector>

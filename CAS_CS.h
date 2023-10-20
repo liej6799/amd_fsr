@@ -21,6 +21,7 @@
 
 #include <cstdint>
 #include <vulkan/vulkan.h>
+#include "PostProcCS.h"
 
 #if (__cplusplus >= 202002L)
 #include <compare>
@@ -77,17 +78,20 @@ namespace CAS_SAMPLE_VK
     class CAS_Filter
     {
     public:
+        void OnCreate(VkDevice_T* pDevice);
 
         void UpdateSharpness(float NewSharpen, CAS_State CASState);
 
     private:
-
+        VkDevice_T *m_pDevice;
         float                           m_sharpenVal;
         uint32_t                        m_renderWidth;
         uint32_t                        m_renderHeight;
         uint32_t                        m_width;
         uint32_t                        m_height;
         CASConstants                    m_consts;
+
+        CAULDRON_VK::PostProcCS         m_casSharpenOnly;
 
         VkImageView                     m_dstTextureSRV;
         VkSampler                       m_renderSampler; // Samples dst texture for rendering to swap chain

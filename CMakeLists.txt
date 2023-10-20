@@ -11,9 +11,19 @@ add_executable(amd_fsr main.cpp
         ffx-cas/ffx_a.h
         ffx-cas/ffx_cas.h
         CAS_CS.cpp
-        CAS_CS.h)
+        CAS_CS.h
+        PostProcCS.cpp
+        PostProcCS.h
+        ShaderCompiler.cpp
+        ShaderCompiler.h
+        Hash.cpp
+        Hash.h
+        Misc.cpp
+        Misc.h)
 
 find_package(Vulkan REQUIRED)
+
+add_subdirectory(libs/vectormath)
 
 target_link_libraries(${PROJECT_NAME} ${Vulkan_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
