@@ -7,7 +7,11 @@ add_executable(amd_fsr main.cpp
         VulkanExample.cpp
         VulkanExample.h
         VulkanTools.cpp
-        VulkanTools.h)
+        VulkanTools.h
+        ffx-cas/ffx_a.h
+        ffx-cas/ffx_cas.h
+        CAS_CS.cpp
+        CAS_CS.h)
 
 find_package(Vulkan REQUIRED)
 

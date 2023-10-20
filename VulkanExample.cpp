@@ -1,6 +1,6 @@
 #include "VulkanExample.h"
 #include "VulkanTools.h"
-
+#include "CAS_CS.h"
 VulkanExample::VulkanExample() {
     createInstance();
     initDevices();
@@ -93,4 +93,7 @@ void VulkanExample::initDevices() {
                 VK_VERSION_MINOR(physicalProperties.apiVersion),
                 VK_VERSION_PATCH(physicalProperties.apiVersion));
     }
+    CAS_SAMPLE_VK::CAS_Filter filter = {};
+    filter.UpdateSharpness(0.1, CAS_SAMPLE_VK::CAS_State_SharpenOnly);
+
 }
