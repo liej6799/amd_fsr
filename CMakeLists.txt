@@ -19,7 +19,14 @@ add_executable(amd_fsr main.cpp
         Hash.cpp
         Hash.h
         Misc.cpp
-        Misc.h)
+        Misc.h
+        ShaderCompilerHelper.cpp
+        ShaderCompilerHelper.h
+        ThreadPool.cpp
+        ThreadPool.h
+        AsyncCache.h
+        Async.cpp
+        Async.h)
 
 find_package(Vulkan REQUIRED)
 

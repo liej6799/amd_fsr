@@ -1,6 +1,6 @@
 // AMD Cauldron code
 //
-// Copyright(c) 2018 Advanced Micro Devices, Inc.All rights reserved.
+// Copyright(c) 2020 Advanced Micro Devices, Inc.All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -17,38 +17,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <cassert>
-#include "PostProcCS.h"
-#include "ShaderCompilerHelper.h"
+#pragma once
 
-namespace CAULDRON_VK
+#include <functional>
+#include <thread>
+#include <deque>
+#include <condition_variable>
+#include <functional>
+
+struct Task
 {
+    std::function<void()> m_job;
+    std::vector<Task *> m_childtasks;
+};
 
-    void PostProcCS::OnCreate(
-            VkDevice_T* pDevice,
-            const std::string &shaderFilename,
-            const std::string &shaderEntryPoint,
-            VkDescriptorSetLayout descriptorSetLayout,
-            uint32_t dwWidth, uint32_t dwHeight, uint32_t dwDepth,
-            DefineList* pUserDefines
-    )
-    {
-        m_pDevice = pDevice;
+class ThreadPool
+{
+public:
+    ThreadPool();
+    ~ThreadPool();
+    void JobStealerLoop();
+    void AddJob(std::function<void()> New_Job);
+private:
+    bool bExiting;
+    int Num_Threads;
+    int m_activeThreads = 0;
+    std::vector<std::thread> Pool;
+    std::deque<Task> Queue;
+    std::condition_variable condition;
+    std::mutex Queue_Mutex;
+};
 
-        VkResult res;
 
-        // Compile shaders
-        //
-        VkPipelineShaderStageCreateInfo computeShader;
-        DefineList defines;
-        defines["WIDTH"] = std::to_string(dwWidth);
-        defines["HEIGHT"] = std::to_string(dwHeight);
-        defines["DEPTH"] = std::to_string(dwDepth);
+ThreadPool *GetThreadPool();
 
-        if (pUserDefines != NULL)
-            defines = *pUserDefines;
 
-        res = VKCompileFromFile(m_pDevice, VK_SHADER_STAGE_COMPUTE_BIT, shaderFilename.c_str(), shaderEntryPoint.c_str(), &defines, &computeShader);
-        assert(res == VK_SUCCESS);
-    }
-}

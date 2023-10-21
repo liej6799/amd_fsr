@@ -16,39 +16,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+#pragma once
 
-#include <cassert>
-#include "PostProcCS.h"
-#include "ShaderCompilerHelper.h"
+
+#include <vulkan/vulkan.h>
+#include "ShaderCompiler.h"
+
+class Sync;
 
 namespace CAULDRON_VK
 {
-
-    void PostProcCS::OnCreate(
-            VkDevice_T* pDevice,
-            const std::string &shaderFilename,
-            const std::string &shaderEntryPoint,
-            VkDescriptorSetLayout descriptorSetLayout,
-            uint32_t dwWidth, uint32_t dwHeight, uint32_t dwDepth,
-            DefineList* pUserDefines
-    )
+    enum ShaderSourceType
     {
-        m_pDevice = pDevice;
+        SST_HLSL,
+        SST_GLSL
+    };
 
-        VkResult res;
+    void CreateShaderCache();
+    void DestroyShaderCache(VkDevice_T *pDevice);
 
-        // Compile shaders
-        //
-        VkPipelineShaderStageCreateInfo computeShader;
-        DefineList defines;
-        defines["WIDTH"] = std::to_string(dwWidth);
-        defines["HEIGHT"] = std::to_string(dwHeight);
-        defines["DEPTH"] = std::to_string(dwDepth);
 
-        if (pUserDefines != NULL)
-            defines = *pUserDefines;
-
-        res = VKCompileFromFile(m_pDevice, VK_SHADER_STAGE_COMPUTE_BIT, shaderFilename.c_str(), shaderEntryPoint.c_str(), &defines, &computeShader);
-        assert(res == VK_SUCCESS);
-    }
+    // Does as the function name says and uses a cache
+    VkResult VKCompileFromString(VkDevice device, ShaderSourceType sourceType, const VkShaderStageFlagBits shader_type, const char *pShaderCode, const char *pEntryPoint, const DefineList *pDefines, VkPipelineShaderStageCreateInfo *pShader);
+    VkResult VKCompileFromFile(VkDevice device, const VkShaderStageFlagBits shader_type, const char *pFilename, const char *pEntryPoint, const DefineList *pDefines, VkPipelineShaderStageCreateInfo *pShader);
 }
