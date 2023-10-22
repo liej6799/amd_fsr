@@ -9,14 +9,14 @@ import moderngl_window
 
 
 class ImageProcessing(moderngl_window.WindowConfig):
-    window_size = 3840 // 2, 2160 // 2
+    window_size = 1280 // 2, 720 // 2
     resource_dir = Path(__file__).parent.resolve()
     aspect_ratio = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.image_processing = ImageTransformer(self.ctx, self.window_size)
-        self.texture = self.load_texture_2d("data/ball.png")
+        self.texture = self.load_texture_2d("triangle.png")
 
     def render(self, time, frame_time):
         self.image_processing.render(self.texture, target=self.ctx.screen)
