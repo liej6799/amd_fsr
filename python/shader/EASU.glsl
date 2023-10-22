@@ -1,5 +1,5 @@
 // GLSL Source : https://www.shadertoy.com/view/stXSWB
-// Issue: Unable to show image correctly for all images, issue such as image cutoff, duplicate image
+// Issue: Able to show image, but only save partial image.
 
 #version 440
 

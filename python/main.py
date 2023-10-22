@@ -16,14 +16,14 @@ class ImageProcessing(moderngl_window.WindowConfig):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.image_processing = ImageTransformer(self.ctx, self.window_size)
-        self.texture = self.load_texture_2d("data/triangle.png")
+        self.texture = self.load_texture_2d("data/lion.jpg")
 
     def render(self, time, frame_time):
         self.image_processing.render(self.texture, target=self.ctx.screen)
 
         # Headless
         self.image_processing.render(self.texture)
-        self.image_processing.write("output.png")
+        #self.image_processing.write("output.png")
 
 
 class ImageTransformer:
@@ -41,7 +41,7 @@ class ImageTransformer:
         if not program:
             self.program = self.ctx.program(
                 vertex_shader= (open("shader/vertex_shader.glsl").read()),
-                fragment_shader = (open("shader/EASU.glsl").read()),          
+                fragment_shader = (open("shader/CAS.glsl").read()),          
             )
             
            
