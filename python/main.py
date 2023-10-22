@@ -9,14 +9,14 @@ import moderngl_window
 
 
 class ImageProcessing(moderngl_window.WindowConfig):
-    window_size = 1280 // 2, 720 // 2
+    window_size = 1920 // 2, 1080 // 2
     resource_dir = Path(__file__).parent.resolve()
     aspect_ratio = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.image_processing = ImageTransformer(self.ctx, self.window_size)
-        self.texture = self.load_texture_2d("triangle.png")
+        self.texture = self.load_texture_2d("data/triangle.png")
 
     def render(self, time, frame_time):
         self.image_processing.render(self.texture, target=self.ctx.screen)
@@ -41,7 +41,7 @@ class ImageTransformer:
         if not program:
             self.program = self.ctx.program(
                 vertex_shader= (open("shader/vertex_shader.glsl").read()),
-                fragment_shader = (open("shader/fragment_shader.glsl").read()),          
+                fragment_shader = (open("shader/EASU.glsl").read()),          
             )
             
            
@@ -78,6 +78,7 @@ class ImageTransformer:
         self.quad.render(mode=moderngl.TRIANGLE_STRIP)
         
     def write(self, name):
+        print(self.fbo.size)
         image = Image.frombytes("RGBA", self.fbo.size, self.fbo.read(components=4))
         image = image.transpose(Image.FLIP_TOP_BOTTOM)
         image.save(name, format="png")
