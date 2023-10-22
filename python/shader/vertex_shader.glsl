@@ -1,10 +1,14 @@
 #version 330
 
-in vec2 in_position;
-in vec2 in_uv;
+in vec3 position;
+in vec2 vertex_uv;
+uniform vec2 iResolution;
+uniform vec2 WindowSize;
+
+
 out vec2 uv;
 
 void main() {
-    gl_Position = vec4(in_position, 0.0, 1.0);
-    uv = in_uv;
+    gl_Position = vec4(position.x, position.y, 0.0f, 1.0f);
+    uv = vertex_uv;
 }

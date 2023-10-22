@@ -35,6 +35,7 @@ class ImageTransformer:
         self.fbo = self.ctx.framebuffer(
             color_attachments=[self.ctx.texture(self.size, 4)]
         )
+        
 
         # Create some default program if needed
         if not program:
@@ -42,7 +43,8 @@ class ImageTransformer:
                 vertex_shader= (open("shader/vertex_shader.glsl").read()),
                 fragment_shader = (open("shader/fragment_shader.glsl").read()),          
             )
-
+            
+           
         # Fullscreen quad in NDC
         self.vertices = self.ctx.buffer(
             array(
@@ -57,10 +59,12 @@ class ImageTransformer:
                 ]
             )
         )
+
+        
         self.quad = self.ctx.vertex_array(
             self.program,
             [
-                (self.vertices, '2f 2f', 'in_position', 'in_uv'),
+                (self.vertices, '2f 2f', 'position', 'vertex_uv'),
             ]
         )
 
@@ -72,7 +76,7 @@ class ImageTransformer:
 
         texture.use(0)
         self.quad.render(mode=moderngl.TRIANGLE_STRIP)
-
+        
     def write(self, name):
         image = Image.frombytes("RGBA", self.fbo.size, self.fbo.read(components=4))
         image = image.transpose(Image.FLIP_TOP_BOTTOM)
