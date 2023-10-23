@@ -41,7 +41,7 @@ class ImageTransformer:
         if not program:
             self.program = self.ctx.program(
                 vertex_shader= (open("shader/vertex_shader.glsl").read()),
-                fragment_shader = (open("shader/CAS.glsl").read()),          
+                fragment_shader = (open("shader/CAS_Basalt.glsl").read()),          
             )
             
            
