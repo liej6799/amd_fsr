@@ -16,7 +16,7 @@ uniform float width;
 uniform float height;
 uniform float texWidth;
 uniform float texHeight;
-const float sharpness =10000.0;
+const float sharpness = 0.4;
 uniform sampler2D iChannel0;
 
 
@@ -69,8 +69,8 @@ void main() {
   vec3 window = (b + d) + (f + h);
   vec3 outColor = clamp((window * wRGB + e) * rcpWeightRGB,0.0,1.0);
 
-  //gl_FragColor = vec4(outColor,getPixel(gl_FragCoord.xy).a);
-  gl_FragColor = vec4(e,getPixel(gl_FragCoord.xy).a);
+  gl_FragColor = vec4(outColor,getPixel(gl_FragCoord.xy).a);
+  //gl_FragColor = vec4(e,getPixel(gl_FragCoord.xy).a);
 }
 `;
 
@@ -79,9 +79,16 @@ const glea = new GLea({
 
 function loop(time) {
   const { gl, width, height } = glea;
+
+  glea.setActiveTexture(0, camTexture);
+  gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gl.RGBA, gl.UNSIGNED_BYTE, video);  
+  glea.uni('texWidth', video.videoWidth);
+  glea.uni('texHeight', video.videoHeight);
+
   glea.clear();
   glea.uni('width', glea.width);
   glea.uni('height', glea.height);
+
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   requestAnimationFrame(loop);
 }
@@ -100,18 +107,24 @@ function loadImage(url) {
   });
 }
 
+let video = document.querySelector('video');
+
 
 async function setup() {
   const { gl } = glea;
   window.addEventListener('resize', () => {
     glea.resize();
   });
-  image =  await loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png')
-  
+
   camTexture = glea.createTexture(0);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-  glea.setActiveTexture(0, camTexture);
-  loop(0);
+  image =  await loadImage('https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png')
+
+  video.addEventListener("playing", function() {
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
+    glea.setActiveTexture(0, camTexture);
+    loop(0);
+  }, true);
+  video.play();
 }
 
 setup();
