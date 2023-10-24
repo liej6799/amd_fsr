@@ -91,7 +91,8 @@ function loop(time) {
 
   glea.setActiveTexture(0, camTexture);
   gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gl.RGBA, gl.UNSIGNED_BYTE, video);  
-
+  glea.uni('texWidth', video.videoWidth);
+  glea.uni('texHeight', video.videoHeight);
 
   glea.clear();
   glea.uni('width', glea.width);
@@ -132,7 +133,7 @@ async function setup() {
     glea.setActiveTexture(0, camTexture);
     loop(0);
   }, true);
-
+  video.play();
 }
 
 setup();
