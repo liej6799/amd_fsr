@@ -1,0 +1,3 @@
+/home/joesl/Development/amd_fsr/rif/build/CMakeFiles/rif.dir
+/home/joesl/Development/amd_fsr/rif/build/CMakeFiles/edit_cache.dir
+/home/joesl/Development/amd_fsr/rif/build/CMakeFiles/rebuild_cache.dir

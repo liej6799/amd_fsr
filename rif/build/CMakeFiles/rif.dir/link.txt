@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/rif.dir/main.cpp.o -o rif 
